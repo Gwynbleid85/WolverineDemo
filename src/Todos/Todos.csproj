@@ -8,6 +8,8 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="CleanResult" Version="1.0.2"/>
+        <PackageReference Include="CleanResult.AspNetCore" Version="1.0.2"/>
         <PackageReference Include="CommunityToolkit.Diagnostics" Version="8.4.0"/>
         <PackageReference Include="Lamar" Version="15.0.0"/>
         <PackageReference Include="Lamar.Microsoft.DependencyInjection" Version="15.0.0"/>
@@ -30,6 +32,10 @@
         <Folder Include="Application\Commands\"/>
         <Folder Include="Application\Queries\"/>
         <Folder Include="Core\"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\SharedKernel\SharedKernel.csproj"/>
     </ItemGroup>
 
 </Project>

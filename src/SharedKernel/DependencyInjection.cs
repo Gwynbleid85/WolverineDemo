@@ -1,13 +1,14 @@
-
 using System.Reflection;
 using CommunityToolkit.Diagnostics;
 using JasperFx.CodeGeneration;
+using Marten;
 using Microsoft.OpenApi.Models;
 using SharedKernel.Application.Swagger;
+using SharedKernel.Infrastructure;
 using Wolverine;
 using Wolverine.FluentValidation;
-using Marten;
 using Wolverine.Marten;
+using Wolverine.Middleware;
 
 namespace SharedKernel;
 
@@ -33,7 +34,8 @@ public static class DependencyInjection
             opts.Policies.AutoApplyTransactions();
             opts.Policies.UseDurableLocalQueues();
             opts.UseFluentValidation();
-            opts.CodeGeneration.TypeLoadMode = TypeLoadMode.Dynamic;
+            opts.CodeGeneration.TypeLoadMode = TypeLoadMode.Auto;
+            opts.CodeGeneration.AddContinuationStrategy<CleanResultContinuationStrategy>();
         });
 
         return host;
@@ -48,7 +50,7 @@ public static class DependencyInjection
 
         return app;
     }
-    
+
 
     /// <summary>
     /// Configure Marten database
@@ -70,7 +72,7 @@ public static class DependencyInjection
             .ApplyAllDatabaseChangesOnStartup()
             .UseLightweightSessions()
             .IntegrateWithWolverine();
-        
+
 
         return services;
     }
@@ -94,7 +96,7 @@ public static class DependencyInjection
                 Version = "v1",
                 Description = "CleanIAM API"
             });
-            
+
             // Add xml comments from all assemblies to swagger
             foreach (var assembly in assemblies)
             {

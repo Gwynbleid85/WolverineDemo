@@ -1,3 +1,4 @@
+using CleanResult;
 using Mapster;
 using Todos.Api.Models.Requests;
 using Todos.Application.Commands;
@@ -35,29 +36,32 @@ public class TodosEndpoint
     /// Create a new todo.
     /// </summary>
     [WolverinePost("/todos")]
-    public static async Task<TodoCreated> CreateTodo(CreateTodoRequest request, IMessageBus bus)
+    public static async Task<IResult> CreateTodo(CreateTodoRequest request, IMessageBus bus)
     {
         var command = request.Adapt<CreateNewTodoCommand>();
-        return await bus.InvokeAsync<TodoCreated>(command);
+        var res = await bus.InvokeAsync<Result<TodoCreated>>(command);
+        return res.ToIResult();
     }
 
     /// <summary>
     /// Update an existing todo.
     /// </summary>
     [WolverinePut("/todos/{id}")]
-    public static async Task<TodoUpdated> UpdateTodo(Guid id, UpdateTodoRequest request, IMessageBus bus)
+    public static async Task<IResult> UpdateTodo(Guid id, UpdateTodoRequest request, IMessageBus bus)
     {
         var command = request.Adapt<UpdateTodoCommand>() with { Id = id };
-        return await bus.InvokeAsync<TodoUpdated>(command);
+        var res = await bus.InvokeAsync<Result<TodoUpdated>>(command);
+        return res.ToIResult();
     }
 
     /// <summary>
     /// Delete a todo by its ID.
     /// </summary>
     [WolverineDelete("/todos/{id}")]
-    public static async Task<TodoDeleted> DeleteTodo(Guid id, IMessageBus bus)
+    public static async Task<IResult> DeleteTodo(Guid id, IMessageBus bus)
     {
         var command = new DeleteTodoCommand(id);
-        return await bus.InvokeAsync<TodoDeleted>(command);
+        var res = await bus.InvokeAsync<Result<TodoDeleted>>(command);
+        return res.ToIResult();
     }
 }

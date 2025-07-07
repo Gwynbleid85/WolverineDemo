@@ -1,4 +1,5 @@
-using CommunityToolkit.Diagnostics;
+using System.Net;
+using CleanResult;
 using Mapster;
 using Marten;
 using Todos.Core;
@@ -10,11 +11,12 @@ public record DeleteTodoCommand(Guid Id);
 
 public class DeleteTodoCommandHandler
 {
-    public static async Task<Todo> LoadAsync(DeleteTodoCommand command, IQuerySession session)
+    public static async Task<Result> LoadAsync(DeleteTodoCommand command, IQuerySession session)
     {
         var todo = await session.LoadAsync<Todo>(command.Id);
-        Guard.IsNotNull(todo, "Todo not found");
-        return todo;
+        if (todo is not null)
+            return Result.Error("Todo not found", HttpStatusCode.NotFound);
+        return Result.Ok();
     }
 
     public static async Task<TodoDeleted> Handle(DeleteTodoCommand command, Todo todo, IDocumentSession session)
