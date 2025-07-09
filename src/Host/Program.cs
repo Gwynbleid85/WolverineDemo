@@ -1,4 +1,3 @@
-
 using Lamar.Microsoft.DependencyInjection;
 using SharedKernel;
 using Todos;
@@ -33,14 +32,11 @@ builder.Services.AddMarten(builder.Configuration);
 builder.Services.AddTodos(builder.Configuration);
 
 
-
 var app = builder.Build();
 app.UseCors();
 app.UseStaticFiles();
 app.UseHttpsRedirection();
-app.MapWolverineEndpoints();
 app.UseSharedKernel();
-
 
 
 // Configure the HTTP request pipeline.

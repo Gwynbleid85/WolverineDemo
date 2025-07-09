@@ -1,12 +1,14 @@
 using System.Reflection;
+using CleanResult.WolverineFx;
 using CommunityToolkit.Diagnostics;
 using JasperFx.CodeGeneration;
 using Marten;
 using Microsoft.OpenApi.Models;
 using SharedKernel.Application.Swagger;
-using SharedKernel.Infrastructure;
 using Wolverine;
 using Wolverine.FluentValidation;
+using Wolverine.Http;
+using Wolverine.Http.FluentValidation;
 using Wolverine.Marten;
 using Wolverine.Middleware;
 
@@ -29,7 +31,6 @@ public static class DependencyInjection
         {
             foreach (var assembly in assemblies)
                 opts.Discovery.IncludeAssembly(Assembly.Load(assembly));
-            opts.CodeGeneration.TypeLoadMode = TypeLoadMode.Auto;
 
             opts.Policies.AutoApplyTransactions();
             opts.Policies.UseDurableLocalQueues();
@@ -46,7 +47,7 @@ public static class DependencyInjection
     /// </summary>
     public static WebApplication UseSharedKernel(this WebApplication app)
     {
-        // Register middlewares
+        app.MapWolverineEndpoints(opts => { opts.UseFluentValidationProblemDetailMiddleware(); });
 
         return app;
     }

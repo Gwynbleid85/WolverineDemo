@@ -3,9 +3,9 @@ using CleanResult;
 using Mapster;
 using Marten;
 using Todos.Core;
-using Todos.Core.Events;
+using Todos.Core.Events.Todos;
 
-namespace Todos.Application.Commands;
+namespace Todos.Application.Commands.Todos;
 
 public record CreateNewTodoCommand(Guid Id, string Title, string Description, bool IsCompleted = false);
 

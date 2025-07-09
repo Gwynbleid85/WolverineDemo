@@ -1,11 +1,9 @@
 using System.Net;
 using CleanResult;
-using Mapster;
 using Marten;
 using Todos.Core;
-using Todos.Core.Events;
 
-namespace Todos.Application.Commands;
+namespace Todos.Application.Commands.Todos;
 
 public record DeleteTodoCommand(Guid Id);
 
@@ -19,11 +17,11 @@ public class DeleteTodoCommandHandler
         return Result.Ok();
     }
 
-    public static async Task<TodoDeleted> Handle(DeleteTodoCommand command, Todo todo, IDocumentSession session)
+    public static async Task<Result> Handle(DeleteTodoCommand command, Todo todo, IDocumentSession session)
     {
         session.Delete(todo);
         await session.SaveChangesAsync();
 
-        return todo.Adapt<TodoDeleted>();
+        return Result.Ok();
     }
 }
