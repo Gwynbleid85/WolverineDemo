@@ -109,6 +109,7 @@ public static class DependencyInjection
             options.SupportNonNullableReferenceTypes();
             // Make all properties required by default (For nicer api generation on FE. See docs)
             options.SchemaFilter<MakeAllPropertiesRequiredFilter>();
+            options.OperationFilter<CleanResultReturnTypeFilter>();
         });
 
         return services;

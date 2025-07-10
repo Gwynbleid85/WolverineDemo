@@ -1,5 +1,6 @@
 using CleanResult;
 using Mapster;
+using Microsoft.AspNetCore.Mvc;
 using Todos.Api.Models.Requests;
 using Todos.Application.Commands.Todos;
 using Todos.Application.Queries.Todos;
@@ -25,6 +26,7 @@ public class TodoEndpoints
     /// <summary>
     /// Get a todo by its ID.
     /// </summary>
+    [ProducesResponseType<Error>(StatusCodes.Status404NotFound)]
     [WolverineGet("/todos/{id}")]
     public static async Task<Todo> GetTodoById(Guid id, IMessageBus bus)
     {
@@ -35,6 +37,8 @@ public class TodoEndpoints
     /// <summary>
     /// Create a new todo.
     /// </summary>
+    [ProducesResponseType<Error>(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType<Error>(StatusCodes.Status404NotFound)]
     [WolverinePost("/todos")]
     public static async Task<Result<TodoCreated>> CreateTodo(CreateTodoRequest request, IMessageBus bus)
     {
@@ -45,8 +49,10 @@ public class TodoEndpoints
     /// <summary>
     /// Update an existing todo.
     /// </summary>
+    [ProducesResponseType<Error>(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType<Error>(StatusCodes.Status404NotFound)]
     [WolverinePut("/todos/{id}")]
-    public static async Task<IResult> UpdateTodo(Guid id, UpdateTodoRequest request, IMessageBus bus)
+    public static async Task<Result<TodoUpdated>> UpdateTodo(Guid id, UpdateTodoRequest request, IMessageBus bus)
     {
         var command = request.Adapt<UpdateTodoCommand>() with { Id = id };
         return await bus.InvokeAsync<Result<TodoUpdated>>(command);
@@ -55,8 +61,10 @@ public class TodoEndpoints
     /// <summary>
     /// Delete a todo by its ID.
     /// </summary>
+    [ProducesResponseType<Error>(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType<Error>(StatusCodes.Status404NotFound)]
     [WolverineDelete("/todos/{id}")]
-    public static async Task<IResult> DeleteTodo(Guid id, IMessageBus bus)
+    public static async Task<Result> DeleteTodo(Guid id, IMessageBus bus)
     {
         var command = new DeleteTodoCommand(id);
         var res = await bus.InvokeAsync<Result>(command);
