@@ -25,9 +25,12 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Infrastructure\"/>
+        <Folder Include="Api\Models\Responses\"/>
+        <Folder Include="Application\EventHandlers\Todo\"/>
+        <Folder Include="Application\Sagas\"/>
         <Folder Include="Api\Models\Requests\"/>
         <Folder Include="Core\"/>
+        <Folder Include="Infrastructure\AnticurruptionLayer\"/>
     </ItemGroup>
 
     <ItemGroup>
