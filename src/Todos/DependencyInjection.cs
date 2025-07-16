@@ -7,7 +7,6 @@ public static class DependencyInjection
     /// </summary>
     public static IServiceCollection AddTodos(this IServiceCollection services, IConfiguration configuration)
     {
-
         return services;
     }
 

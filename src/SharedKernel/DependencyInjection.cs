@@ -1,13 +1,16 @@
-
 using System.Reflection;
+using CleanResult.WolverineFx;
 using CommunityToolkit.Diagnostics;
 using JasperFx.CodeGeneration;
+using Marten;
 using Microsoft.OpenApi.Models;
 using SharedKernel.Application.Swagger;
 using Wolverine;
 using Wolverine.FluentValidation;
-using Marten;
+using Wolverine.Http;
+using Wolverine.Http.FluentValidation;
 using Wolverine.Marten;
+using Wolverine.Middleware;
 
 namespace SharedKernel;
 
@@ -28,12 +31,12 @@ public static class DependencyInjection
         {
             foreach (var assembly in assemblies)
                 opts.Discovery.IncludeAssembly(Assembly.Load(assembly));
-            opts.CodeGeneration.TypeLoadMode = TypeLoadMode.Auto;
 
             opts.Policies.AutoApplyTransactions();
             opts.Policies.UseDurableLocalQueues();
             opts.UseFluentValidation();
-            opts.CodeGeneration.TypeLoadMode = TypeLoadMode.Dynamic;
+            opts.CodeGeneration.TypeLoadMode = TypeLoadMode.Auto;
+            opts.CodeGeneration.AddContinuationStrategy<CleanResultContinuationStrategy>();
         });
 
         return host;
@@ -44,11 +47,11 @@ public static class DependencyInjection
     /// </summary>
     public static WebApplication UseSharedKernel(this WebApplication app)
     {
-        // Register middlewares
+        app.MapWolverineEndpoints(opts => { opts.UseFluentValidationProblemDetailMiddleware(); });
 
         return app;
     }
-    
+
 
     /// <summary>
     /// Configure Marten database
@@ -70,7 +73,7 @@ public static class DependencyInjection
             .ApplyAllDatabaseChangesOnStartup()
             .UseLightweightSessions()
             .IntegrateWithWolverine();
-        
+
 
         return services;
     }
@@ -94,7 +97,7 @@ public static class DependencyInjection
                 Version = "v1",
                 Description = "CleanIAM API"
             });
-            
+
             // Add xml comments from all assemblies to swagger
             foreach (var assembly in assemblies)
             {
@@ -106,6 +109,7 @@ public static class DependencyInjection
             options.SupportNonNullableReferenceTypes();
             // Make all properties required by default (For nicer api generation on FE. See docs)
             options.SchemaFilter<MakeAllPropertiesRequiredFilter>();
+            options.OperationFilter<CleanResultReturnTypeFilter>();
         });
 
         return services;

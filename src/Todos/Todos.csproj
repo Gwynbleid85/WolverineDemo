@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="CleanResult" Version="1.2.1"/>
         <PackageReference Include="CommunityToolkit.Diagnostics" Version="8.4.0"/>
         <PackageReference Include="Lamar" Version="15.0.0"/>
         <PackageReference Include="Lamar.Microsoft.DependencyInjection" Version="15.0.0"/>
@@ -15,21 +16,25 @@
         <PackageReference Include="Marten" Version="8.3.1"/>
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.2"/>
         <PackageReference Include="System.Linq.Async" Version="6.0.3"/>
-        <PackageReference Include="WolverineFx" Version="4.5.0"/>
-        <PackageReference Include="WolverineFx.FluentValidation" Version="4.5.0"/>
-        <PackageReference Include="WolverineFx.Http" Version="4.5.0"/>
-        <PackageReference Include="WolverineFx.Http.FluentValidation" Version="4.5.0"/>
-        <PackageReference Include="WolverineFx.Http.Marten" Version="4.5.0"/>
-        <PackageReference Include="WolverineFx.Marten" Version="4.5.0"/>
+        <PackageReference Include="WolverineFx" Version="4.5.2"/>
+        <PackageReference Include="WolverineFx.FluentValidation" Version="4.5.2"/>
+        <PackageReference Include="WolverineFx.Http" Version="4.5.2"/>
+        <PackageReference Include="WolverineFx.Http.FluentValidation" Version="4.5.2"/>
+        <PackageReference Include="WolverineFx.Http.Marten" Version="4.5.2"/>
+        <PackageReference Include="WolverineFx.Marten" Version="4.5.2"/>
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Infrastructure\"/>
-        <Folder Include="Api\"/>
+        <Folder Include="Api\Models\Responses\"/>
+        <Folder Include="Application\EventHandlers\Todo\"/>
+        <Folder Include="Application\Sagas\"/>
         <Folder Include="Api\Models\Requests\"/>
-        <Folder Include="Application\Commands\"/>
-        <Folder Include="Application\Queries\"/>
         <Folder Include="Core\"/>
+        <Folder Include="Infrastructure\AnticurruptionLayer\"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\SharedKernel\SharedKernel.csproj"/>
     </ItemGroup>
 
 </Project>

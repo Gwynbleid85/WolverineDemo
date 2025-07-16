@@ -1,7 +1,7 @@
 using Marten;
 using Todos.Core;
 
-namespace Todos.Application.Queries;
+namespace Todos.Application.Queries.Todos;
 
 /// <summary>
 /// Get all todos in the system.
