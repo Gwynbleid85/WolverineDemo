@@ -8,8 +8,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="CleanResult" Version="1.2.1"/>
-        <PackageReference Include="CleanResult.WolverineFx" Version="1.2.1"/>
+        <PackageReference Include="CleanResult" Version="1.2.2"/>
+        <PackageReference Include="CleanResult.Swashbuckle" Version="1.2.2"/>
+        <PackageReference Include="CleanResult.WolverineFx" Version="1.2.2"/>
         <PackageReference Include="CommunityToolkit.Diagnostics" Version="8.4.0"/>
         <PackageReference Include="Lamar" Version="15.0.0"/>
         <PackageReference Include="Lamar.Microsoft.DependencyInjection" Version="15.0.0"/>

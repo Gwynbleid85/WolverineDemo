@@ -1,4 +1,5 @@
 using System.Reflection;
+using CleanResult.Swashbuckle;
 using CleanResult.WolverineFx;
 using CommunityToolkit.Diagnostics;
 using JasperFx.CodeGeneration;
@@ -108,6 +109,7 @@ public static class DependencyInjection
             // Make all strings nullable by defaults
             options.SupportNonNullableReferenceTypes();
             options.SchemaFilter<MakeAllPropertiesRequiredFilter>();
+            options.AddCleanResultFilters();
         });
 
         return services;
