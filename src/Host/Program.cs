@@ -1,5 +1,6 @@
 using Lamar.Microsoft.DependencyInjection;
 using SharedKernel;
+using Swashbuckle.FluentValidation.AspNetCore;
 using Todos;
 using Wolverine.Http;
 
@@ -21,7 +22,8 @@ builder.Services.AddLogging();
 string[] assemblies =
 [
     "Todos",
-    "SharedKernel"
+    "SharedKernel",
+    "SwaggerExamples"
 ];
 
 builder.Host.AddProjects(assemblies);
@@ -30,7 +32,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSwagger("WolverineDemo", assemblies);
 builder.Services.AddMarten(builder.Configuration);
 builder.Services.AddTodos(builder.Configuration);
-
+builder.Services.AddFluentValidationRulesToSwagger();
 
 var app = builder.Build();
 app.UseCors();
