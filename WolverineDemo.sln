@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Host", "src\Host\Host.cspro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel", "src\SharedKernel\SharedKernel.csproj", "{B2681AB4-FC18-4C32-8200-1E8FB1348953}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwaggerExamples", "src/SwaggerExamples\SwaggerExamples.csproj", "{35AC2F8B-CCB9-4414-B8DC-56C7D7396BE3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{B2681AB4-FC18-4C32-8200-1E8FB1348953}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B2681AB4-FC18-4C32-8200-1E8FB1348953}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B2681AB4-FC18-4C32-8200-1E8FB1348953}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35AC2F8B-CCB9-4414-B8DC-56C7D7396BE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35AC2F8B-CCB9-4414-B8DC-56C7D7396BE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35AC2F8B-CCB9-4414-B8DC-56C7D7396BE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35AC2F8B-CCB9-4414-B8DC-56C7D7396BE3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

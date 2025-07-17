@@ -1,4 +1,5 @@
 using System.Reflection;
+using CleanResult.Swashbuckle;
 using CleanResult.WolverineFx;
 using CommunityToolkit.Diagnostics;
 using JasperFx.CodeGeneration;
@@ -107,9 +108,8 @@ public static class DependencyInjection
 
             // Make all strings nullable by defaults
             options.SupportNonNullableReferenceTypes();
-            // Make all properties required by default (For nicer api generation on FE. See docs)
             options.SchemaFilter<MakeAllPropertiesRequiredFilter>();
-            options.OperationFilter<CleanResultReturnTypeFilter>();
+            options.AddCleanResultFilters();
         });
 
         return services;
