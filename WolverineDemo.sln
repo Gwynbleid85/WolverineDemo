@@ -8,7 +8,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel", "src\SharedK
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwaggerExamples", "src/SwaggerExamples\SwaggerExamples.csproj", "{35AC2F8B-CCB9-4414-B8DC-56C7D7396BE3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapsterChecker", "MapsterChecker\MapsterChecker.csproj", "{FFC26A62-0700-4F5C-95FF-52499F45FE31}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapsterChecker", "src/MapsterChecker\MapsterChecker.csproj", "{FFC26A62-0700-4F5C-95FF-52499F45FE31}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
