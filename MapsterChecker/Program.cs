@@ -1,8 +1,10 @@
-﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.MSBuild;
 
 using var workspace = MSBuildWorkspace.Create();
-var solution = await workspace.OpenSolutionAsync(@"C:\Path\To\Your.sln");
+var solution =
+    await workspace.OpenSolutionAsync(@"/Users/miloshegr/Documents/Projects/Dotnet/WolverineDemo/WolverineDemo.sln");
 
 foreach (var project in solution.Projects)
 foreach (var document in project.Documents)
@@ -25,16 +27,17 @@ foreach (var document in project.Documents)
             Console.WriteLine($"Object Invoked On: {objectExpression}");
 
             // Get the type of the object using SemanticModel
-            var symbol = semanticModel.GetSymbolInfo(memberAccess.Expression).Symbol;
-            if (symbol != null)
-            {
-                var objectType = symbol?.Type; // Get the type of the object
-                Console.WriteLine($"Type of Object Invoked On: {objectType}");
-            }
+            var invokerSymbol = semanticModel?.GetTypeInfo(memberAccess.Expression);
 
-            // Get the generic type parameters (e.g., UserDto from .Adapt<UserDto>())
-            var typeArgs = string.Join(", ", genericName.TypeArgumentList.Arguments
-                .Select(arg => arg.ToString()));
-            Console.WriteLine($"Generic Type Arguments: {typeArgs}");
+            var typeArguments = genericName.TypeArgumentList.Arguments
+                .Select(arg => semanticModel?.GetTypeInfo(arg).Type) // Extract the type argument as string
+                .ToList();
+
+            Console.WriteLine($"Type of Object Invoked On: {invokerSymbol}");
+            Console.WriteLine($"Generic Type Arguments: {genericName.Identifier.Text}");
+            Console.WriteLine($"Type Arguments: {string.Join(", ", typeArguments)}");
+            Console.WriteLine("--------------------------------------------------");
         }
+
+    // Get the generic type parameters (e.g., UserDto from .Adapt<UserDto>())
 }
