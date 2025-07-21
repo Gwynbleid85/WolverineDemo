@@ -1,6 +1,6 @@
 namespace Todos.Api.Models.Requests;
 
-public class UpdateTodoRequest
+public record UpdateTodoRequest
 {
     public Guid Id { get; set; }
     public string Title { get; set; }

@@ -1,6 +1,6 @@
 namespace Todos.Api.Models.Requests;
 
-public class CreateTodoRequest
+public record CreateTodoRequest
 {
     public string Title { get; set; }
     public string Description { get; set; }
