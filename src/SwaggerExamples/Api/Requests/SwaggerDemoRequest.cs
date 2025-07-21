@@ -1,6 +1,6 @@
 namespace SwaggerExamples.Api.Requests;
 
-public class SwaggerDemoRequest
+public record SwaggerDemoRequest
 {
     public Guid Id { get; set; }
     public required string Name { get; set; }
