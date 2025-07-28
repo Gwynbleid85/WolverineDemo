@@ -36,8 +36,4 @@
         <Exec WorkingDirectory="$(ProjectDir)" Command="dotnet mapster mapper -a &quot;$(TargetDir)$(ProjectName).dll&quot; -o Internal"/>
     </Target>
 
-    <ItemGroup>
-        <Folder Include="Internal\"/>
-    </ItemGroup>
-
 </Project>
