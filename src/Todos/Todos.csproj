@@ -13,6 +13,7 @@
         <PackageReference Include="Lamar" Version="15.0.0"/>
         <PackageReference Include="Lamar.Microsoft.DependencyInjection" Version="15.0.0"/>
         <PackageReference Include="Mapster" Version="7.4.0"/>
+        <PackageReference Include="MapsterChecker.Analyzer" Version="1.0.2"/>
         <PackageReference Include="Marten" Version="8.3.1"/>
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.2"/>
         <PackageReference Include="System.Linq.Async" Version="6.0.3"/>
