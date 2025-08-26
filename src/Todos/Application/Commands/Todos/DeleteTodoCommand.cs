@@ -1,6 +1,5 @@
 using System.Net;
 using CleanResult;
-using Mapster;
 using Marten;
 using Todos.Core;
 
@@ -22,10 +21,6 @@ public class DeleteTodoCommandHandler
     {
         session.Delete(todo);
         await session.SaveChangesAsync();
-
-        var asdf = "asdf";
-        var asd = asdf.Adapt<Result>();
-
         return Result.Ok();
     }
 }

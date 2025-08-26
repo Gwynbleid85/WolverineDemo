@@ -1,6 +1,7 @@
 using CleanResult;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 using Todos.Api.Models.Requests;
 using Todos.Application.Commands.Todos;
 using Todos.Application.Queries.Todos;
@@ -19,6 +20,7 @@ public class TodoEndpoints
     [WolverineGet("/todos")]
     public static async Task<IEnumerable<Todo>> GetTodos(IMessageBus bus)
     {
+        Log.Information("Retrieving all todos from the system.");
         var query = new GetAllTodosQuery();
         return await bus.InvokeAsync<IEnumerable<Todo>>(query);
     }
@@ -26,6 +28,7 @@ public class TodoEndpoints
     /// <summary>
     /// Get a todo by its ID.
     /// </summary>
+    /// <param name="id">Id of the todo to get</param>
     [ProducesResponseType<Error>(StatusCodes.Status404NotFound)]
     [WolverineGet("/todos/{id}")]
     public static async Task<Todo> GetTodoById(Guid id, IMessageBus bus)
