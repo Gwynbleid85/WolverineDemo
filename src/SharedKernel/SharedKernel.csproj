@@ -8,10 +8,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="CleanResult" Version="1.2.5"/>
+        <PackageReference Include="CleanResult" Version="1.2.7"/>
         <PackageReference Include="CleanResult.Swashbuckle" Version="1.2.5"/>
         <PackageReference Include="CleanResult.WolverineFx" Version="1.2.5"/>
         <PackageReference Include="CommunityToolkit.Diagnostics" Version="8.4.0"/>
+        <PackageReference Include="Swashbuckle.FluentValidation" Version="7.1.8"/>
         <PackageReference Include="Lamar" Version="15.0.0"/>
         <PackageReference Include="Lamar.Microsoft.DependencyInjection" Version="15.0.0"/>
         <PackageReference Include="Mapster" Version="7.4.0"/>
