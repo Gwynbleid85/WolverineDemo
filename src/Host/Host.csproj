@@ -8,7 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="CleanResult" Version="1.2.2"/>
+        <PackageReference Include="CleanResult" Version="1.2.5"/>
         <PackageReference Include="CommunityToolkit.Diagnostics" Version="8.4.0"/>
         <PackageReference Include="Lamar" Version="15.0.0"/>
         <PackageReference Include="Lamar.Microsoft.DependencyInjection" Version="15.0.0"/>
@@ -35,9 +35,5 @@
         <Exec WorkingDirectory="$(ProjectDir)" Command="dotnet tool restore"/>
         <Exec WorkingDirectory="$(ProjectDir)" Command="dotnet mapster mapper -a &quot;$(TargetDir)$(ProjectName).dll&quot; -o Internal"/>
     </Target>
-
-    <ItemGroup>
-        <Folder Include="Internal\"/>
-    </ItemGroup>
 
 </Project>
