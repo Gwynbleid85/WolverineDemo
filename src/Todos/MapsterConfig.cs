@@ -10,20 +10,22 @@ public class MappingRegister : ICodeGenerationRegister
 {
     public void Register(CodeGenerationConfig config)
     {
-        config.AdaptFrom("[name]Add", MapType.Map)
-            .ApplyDefaultRule();
-        config.AdaptFrom("[name]Update", MapType.MapToTarget)
+        config.AdaptFrom("[name]Add", MapType.Map).ApplyDefaultRule();
+        config
+            .AdaptFrom("[name]Update", MapType.MapToTarget)
             .ApplyDefaultRule()
             .IgnoreAttributes(typeof(KeyAttribute));
 
-        config.AdaptFrom("[name]Merge", MapType.MapToTarget)
+        config
+            .AdaptFrom("[name]Merge", MapType.MapToTarget)
             .ApplyDefaultRule()
             .IgnoreAttributes(typeof(KeyAttribute))
             .IgnoreNullValues(true);
 
-        config.GenerateMapper("[name]Mapper")
+        config
+            .GenerateMapper("[name]Mapper")
             .ForType<CreateTodoRequest>()
-            .ForType<CreateNewTodoCommand>();
+            .ForType<CreateTodoCommand>();
     }
 }
 
@@ -34,6 +36,9 @@ internal static class RegisterExtensions
         return builder
             .ForAllTypesInNamespace(Assembly.GetExecutingAssembly(), "Sample.CodeGen.Domains")
             .ExcludeTypes(type => type.IsEnum)
-            .AlterType(type => type.IsEnum || Nullable.GetUnderlyingType(type)?.IsEnum == true, typeof(string));
+            .AlterType(
+                type => type.IsEnum || Nullable.GetUnderlyingType(type)?.IsEnum == true,
+                typeof(string)
+            );
     }
 }

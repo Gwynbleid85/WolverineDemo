@@ -4,8 +4,7 @@ using CleanResult.WolverineFx;
 using CommunityToolkit.Diagnostics;
 using JasperFx.CodeGeneration;
 using Marten;
-using Microsoft.OpenApi.Models;
-using SharedKernel.Application.Swagger;
+using Microsoft.OpenApi;
 using Wolverine;
 using Wolverine.FluentValidation;
 using Wolverine.Http;
@@ -48,24 +47,29 @@ public static class DependencyInjection
     /// </summary>
     public static WebApplication UseSharedKernel(this WebApplication app)
     {
-        app.MapWolverineEndpoints(opts => { opts.UseFluentValidationProblemDetailMiddleware(); });
+        app.MapWolverineEndpoints(opts =>
+        {
+            opts.UseFluentValidationProblemDetailMiddleware();
+        });
 
         return app;
     }
 
-
     /// <summary>
     /// Configure Marten database
     /// </summary>
-    public static IServiceCollection AddMarten(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddMarten(
+        this IServiceCollection services,
+        IConfiguration configuration
+    )
     {
         var dbSchemeName = configuration.GetSection("DbSettings:MartenDb")["DatabaseNames"];
-        var connectionString =
-            configuration.GetSection("DbSettings:MartenDb")["ConnectionStrings"];
+        var connectionString = configuration.GetSection("DbSettings:MartenDb")["ConnectionStrings"];
         Guard.IsNotNullOrEmpty(dbSchemeName, "Db scheme");
         Guard.IsNotNullOrEmpty(connectionString, "Connection string");
 
-        services.AddMarten(opts =>
+        services
+            .AddMarten(opts =>
             {
                 opts.Connection(connectionString);
                 opts.DatabaseSchemaName = dbSchemeName;
@@ -74,7 +78,6 @@ public static class DependencyInjection
             .ApplyAllDatabaseChangesOnStartup()
             .UseLightweightSessions()
             .IntegrateWithWolverine();
-
 
         return services;
     }
@@ -86,18 +89,24 @@ public static class DependencyInjection
     /// <param name="title"> Title of the OpenApi schema</param>
     /// <param name="assemblies"></param>
     /// <returns></returns>
-    public static IServiceCollection AddSwagger(this IServiceCollection services, string title,
-        string[] assemblies)
+    public static IServiceCollection AddSwagger(
+        this IServiceCollection services,
+        string title,
+        string[] assemblies
+    )
     {
         services.AddSwaggerGen(options =>
         {
-            // Configure basic swagger info 
-            options.SwaggerDoc("v1", new OpenApiInfo
-            {
-                Title = title,
-                Version = "v1",
-                Description = "CleanIAM API"
-            });
+            // Configure basic swagger info
+            options.SwaggerDoc(
+                "v1",
+                new OpenApiInfo
+                {
+                    Title = title,
+                    Version = "v1",
+                    Description = "CleanIAM API",
+                }
+            );
 
             // Add xml comments from all assemblies to swagger
             foreach (var assembly in assemblies)
@@ -108,7 +117,7 @@ public static class DependencyInjection
 
             // Make all strings nullable by defaults
             options.SupportNonNullableReferenceTypes();
-            options.SchemaFilter<MakeAllPropertiesRequiredFilter>();
+            options.SchemaFilter<FluentValidationSchemaFilter>();
             options.AddCleanResultFilters();
         });
 

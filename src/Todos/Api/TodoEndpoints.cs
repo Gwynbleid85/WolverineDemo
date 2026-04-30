@@ -31,7 +31,7 @@ public class TodoEndpoints
     /// <param name="id">Id of the todo to get</param>
     [ProducesResponseType<Error>(StatusCodes.Status404NotFound)]
     [WolverineGet("/todos/{id}")]
-    public static async Task<Todo> GetTodoById(Guid id, IMessageBus bus)
+    public static async Task<Todo> GetTodoById([FromRoute] Guid id, IMessageBus bus)
     {
         var query = new GetTodoByIdQuery(id);
         return await bus.InvokeAsync<Todo>(query);
@@ -43,9 +43,17 @@ public class TodoEndpoints
     [ProducesResponseType<Error>(StatusCodes.Status400BadRequest)]
     [ProducesResponseType<Error>(StatusCodes.Status404NotFound)]
     [WolverinePost("/todos")]
-    public static async Task<Result<TodoCreated>> CreateTodo(CreateTodoRequest request, IMessageBus bus)
+    public static async Task<Result<TodoCreated>> CreateTodo(
+        [FromBody] CreateTodoRequest request,
+        IMessageBus bus
+    )
     {
-        var command = request.Adapt<CreateNewTodoCommand>();
+        var command = new CreateTodoCommand(
+            Guid.CreateVersion7(),
+            request.Title,
+            request.Description,
+            request.IsCompleted == IsCompleted.No
+        );
         return await bus.InvokeAsync<Result<TodoCreated>>(command);
     }
 
@@ -55,7 +63,11 @@ public class TodoEndpoints
     [ProducesResponseType<Error>(StatusCodes.Status400BadRequest)]
     [ProducesResponseType<Error>(StatusCodes.Status404NotFound)]
     [WolverinePut("/todos/{id}")]
-    public static async Task<Result<TodoUpdated>> UpdateTodo(Guid id, UpdateTodoRequest request, IMessageBus bus)
+    public static async Task<Result<TodoUpdated>> UpdateTodo(
+        Guid id,
+        UpdateTodoRequest request,
+        IMessageBus bus
+    )
     {
         var command = request.Adapt<UpdateTodoCommand>() with { Id = id };
         return await bus.InvokeAsync<Result<TodoUpdated>>(command);

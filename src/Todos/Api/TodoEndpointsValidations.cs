@@ -11,7 +11,7 @@ public class TodoEndpointsValidations
         {
             RuleFor(x => x.Title).NotNull().MinimumLength(3).MaximumLength(10);
             RuleFor(x => x.Description).NotNull().MinimumLength(3).MaximumLength(32);
-            RuleFor(x => x.IsCompleted).NotNull();
+            RuleFor(x => x.IsCompleted).IsInEnum();
         }
     }
 
