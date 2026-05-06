@@ -7,7 +7,7 @@ using JasperFx.CodeGeneration;
 using Marten;
 using Microsoft.OpenApi;
 using Serilog;
-using SharedKernel.Core.Events;
+using SharedKernel.Infrastructure.Utils;
 using Wolverine;
 using Wolverine.FluentValidation;
 using Wolverine.Http;
@@ -54,13 +54,13 @@ public static class DependencyInjection
 
             opts.UseKafka(kafkaUrl);
 
+            opts.PublishToKafkaAutomatic(assemblies);
+
             opts.ListenToKafkaTopic("demo-test-topic")
                 .ConfigureConsumer(config =>
                 {
                     config.GroupId = consumerGroupId;
                 });
-            opts.PublishMessage<Ping>().ToKafkaTopic("demo-test-topic");
-            opts.PublishMessage<Pong>().ToKafkaTopic("demo-test-topic");
         });
 
         var loggerConfiguration = new LoggerConfiguration()
@@ -155,5 +155,36 @@ public static class DependencyInjection
         });
 
         return services;
+    }
+
+    public static void PublishToKafkaAutomatic(this WolverineOptions opts, string[] assemblies)
+    {
+        var loadedAssemblies = assemblies.Select(Assembly.Load).ToArray();
+
+        foreach (var assembly in loadedAssemblies)
+        {
+            opts.Discovery.IncludeAssembly(assembly);
+        }
+
+        foreach (
+            var messageType in loadedAssemblies
+                .SelectMany(a => a.GetTypes())
+                .Where(t =>
+                    typeof(IKafkaMessage).IsAssignableFrom(t)
+                    && t is { IsAbstract: false, IsInterface: false }
+                )
+        )
+        {
+            var topic = messageType.GetCustomAttribute<KafkaTopicAttribute>()?.TopicName;
+
+            if (string.IsNullOrWhiteSpace(topic))
+            {
+                throw new InvalidOperationException(
+                    $"{messageType.FullName} implements IKafkaMessage but has no KafkaTopicAttribute."
+                );
+            }
+
+            opts.PublishMessage(messageType).ToKafkaTopic(topic);
+        }
     }
 }
