@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Reflection;
 using CleanResult.Swashbuckle;
 using CleanResult.WolverineFx;
@@ -5,10 +6,13 @@ using CommunityToolkit.Diagnostics;
 using JasperFx.CodeGeneration;
 using Marten;
 using Microsoft.OpenApi;
+using Serilog;
+using SharedKernel.Core.Events;
 using Wolverine;
 using Wolverine.FluentValidation;
 using Wolverine.Http;
 using Wolverine.Http.FluentValidation;
+using Wolverine.Kafka;
 using Wolverine.Marten;
 using Wolverine.Middleware;
 
@@ -24,9 +28,19 @@ public static class DependencyInjection
     /// </summary>
     /// <param name="host"></param>
     /// <param name="assemblies"></param>
+    /// <param name="configuration"></param>
     /// <returns></returns>
-    public static IHostBuilder AddProjects(this IHostBuilder host, string[] assemblies)
+    public static IHostBuilder AddProjects(
+        this IHostBuilder host,
+        string[] assemblies,
+        IConfiguration configuration
+    )
     {
+        var kafkaUrl = configuration.GetValue<string>("Wolverine:Kafka:Url");
+        var consumerGroupId = configuration.GetValue<string>("Wolverine:Kafka:ConsumerGroupId");
+        Guard.IsNotNullOrEmpty(kafkaUrl, "Kafka Url not set.");
+        Guard.IsNotNullOrEmpty(kafkaUrl, "Kafka Consumer group id not set.");
+
         host.UseWolverine(opts =>
         {
             foreach (var assembly in assemblies)
@@ -35,9 +49,28 @@ public static class DependencyInjection
             opts.Policies.AutoApplyTransactions();
             opts.Policies.UseDurableLocalQueues();
             opts.UseFluentValidation();
-            opts.CodeGeneration.TypeLoadMode = TypeLoadMode.Auto;
+            opts.CodeGeneration.TypeLoadMode = TypeLoadMode.Dynamic;
             opts.CodeGeneration.AddContinuationStrategy<CleanResultContinuationStrategy>();
+
+            opts.UseKafka(kafkaUrl);
+
+            opts.ListenToKafkaTopic("demo-test-topic")
+                .ConfigureConsumer(config =>
+                {
+                    config.GroupId = consumerGroupId;
+                });
+            opts.PublishMessage<Ping>().ToKafkaTopic("demo-test-topic");
+            opts.PublishMessage<Pong>().ToKafkaTopic("demo-test-topic");
         });
+
+        var loggerConfiguration = new LoggerConfiguration()
+            .MinimumLevel.Information()
+            .Enrich.FromLogContext()
+            .WriteTo.Console(
+                outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss} {Level:u3} {CallerFilePath}|{CallerMemberName}:{CallerLineNumber}] {Message:lj}{NewLine}{Exception}",
+                formatProvider: CultureInfo.InvariantCulture
+            );
+        Log.Logger = loggerConfiguration.CreateLogger();
 
         return host;
     }

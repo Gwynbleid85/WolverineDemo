@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
@@ -11,6 +11,7 @@
     <PackageReference Include="CleanResult" Version="1.4.1" />
     <PackageReference Include="CleanResult.Swashbuckle" Version="1.4.1" />
     <PackageReference Include="CleanResult.WolverineFx" Version="1.4.1" />
+    <PackageReference Include="CleanUtils.Serilog.Enricher.FileContext" Version="1.1.1" />
     <PackageReference Include="CommunityToolkit.Diagnostics" Version="8.4.0" />
     <PackageReference Include="FluentValidation" Version="12.0.0" />
     <PackageReference Include="Lamar" Version="15.0.0" />
@@ -18,6 +19,7 @@
     <PackageReference Include="Mapster" Version="7.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.2" />
     <PackageReference Include="Serilog" Version="4.3.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="6.1.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="10.1.7" />
     <PackageReference Include="System.Linq.Async" Version="6.0.3" />
     <PackageReference Include="WolverineFx" Version="5.34.0" />
@@ -25,6 +27,7 @@
     <PackageReference Include="WolverineFx.Http" Version="5.34.0" />
     <PackageReference Include="WolverineFx.Http.FluentValidation" Version="5.34.0" />
     <PackageReference Include="WolverineFx.Http.Marten" Version="5.34.0" />
+    <PackageReference Include="WolverineFx.Kafka" Version="5.34.0" />
     <PackageReference Include="WolverineFx.Marten" Version="5.34.0" />
   </ItemGroup>
 

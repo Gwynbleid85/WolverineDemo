@@ -21,13 +21,13 @@ public static class StatusCheckEndpoint
     {
         return Results.Ok();
     }
-    
+
     /// <summary>
     /// Redirect to the management portal.
     /// </summary>
     [WolverineGet("/")]
     public static IResult Index()
     {
-        return Results.Ok("Ok");
+        return Results.Redirect("/swagger/index.html");
     }
 }

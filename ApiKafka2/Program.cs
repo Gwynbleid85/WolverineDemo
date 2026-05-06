@@ -1,6 +1,6 @@
+using JasperFx;
 using Lamar.Microsoft.DependencyInjection;
 using SharedKernel;
-using Todos;
 using Wolverine.Http;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,14 +16,12 @@ builder.Services.AddCors(opts =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddWolverineHttp();
 builder.Services.AddLogging();
-string[] assemblies = ["Todos", "SharedKernel"];
+string[] assemblies = ["SharedKernel", "ApiKafka2"];
 
 builder.Host.AddProjects(assemblies, builder.Configuration);
 
-builder.Services.AddSwaggerGen();
 builder.Services.AddSwagger("WolverineDemo", assemblies);
 builder.Services.AddMarten(builder.Configuration);
-builder.Services.AddTodos(builder.Configuration);
 
 var app = builder.Build();
 app.UseCors();
@@ -38,4 +36,4 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.Run();
+return await app.RunJasperFxCommands(args);

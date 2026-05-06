@@ -1,21 +1,22 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+  </PropertyGroup>
 
-    <PropertyGroup>
-        <TargetFramework>net9.0</TargetFramework>
-        <Nullable>enable</Nullable>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SharedKernel\SharedKernel.csproj" />
+    <ProjectReference Include="..\SwaggerExamples\SwaggerExamples.csproj" />
+    <ProjectReference Include="..\Todos\Todos.csproj" />
+  </ItemGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="..\SharedKernel\SharedKernel.csproj"/>
-        <ProjectReference Include="..\SwaggerExamples\SwaggerExamples.csproj"/>
-        <ProjectReference Include="..\Todos\Todos.csproj"/>
-    </ItemGroup>
-
-    <Target Name="Mapster" AfterTargets="AfterBuild">
-        <Exec WorkingDirectory="$(ProjectDir)" Command="dotnet tool restore"/>
-        <Exec WorkingDirectory="$(ProjectDir)" Command="dotnet mapster mapper -a &quot;$(TargetDir)$(ProjectName).dll&quot; -o Internal"/>
-    </Target>
-
+  <Target Name="Mapster" AfterTargets="AfterBuild">
+    <Exec WorkingDirectory="$(ProjectDir)" Command="dotnet tool restore" />
+    <Exec
+      WorkingDirectory="$(ProjectDir)"
+      Command="dotnet mapster mapper -a &quot;$(TargetDir)$(ProjectName).dll&quot; -o Internal"
+    />
+  </Target>
 </Project>

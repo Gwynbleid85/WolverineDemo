@@ -37,7 +37,6 @@ public class CreateTodoCommandHandler
         var todo = command.Adapt<Todo>();
         session.Store(todo);
 
-        await session.SaveChangesAsync();
         var todoCreatedEvent = todo.Adapt<TodoCreated>();
         await bus.PublishAsync(todoCreatedEvent);
 

@@ -17,9 +17,9 @@ builder.Services.AddCors(opts =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddWolverineHttp();
 builder.Services.AddLogging();
-string[] assemblies = ["Todos", "SharedKernel", "SwaggerExamples"];
+string[] assemblies = ["Todos", "SharedKernel", "SwaggerExamples", "Kafka1", "Kafka2"];
 
-builder.Host.AddProjects(assemblies);
+builder.Host.AddProjects(assemblies, builder.Configuration);
 
 builder.Services.AddSwaggerGen();
 builder.Services.AddSwagger("WolverineDemo", assemblies);
