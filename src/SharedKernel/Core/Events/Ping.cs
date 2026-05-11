@@ -2,5 +2,5 @@ using SharedKernel.Infrastructure.Utils;
 
 namespace SharedKernel.Core.Events;
 
-[KafkaTopic("demo-test-topic")]
-public record Ping(string Message) : IKafkaMessage;
+[KafkaMessage("demo-test-topic")]
+public record Ping(string Message);

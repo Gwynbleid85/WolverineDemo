@@ -39,7 +39,7 @@ public static class DependencyInjection
         var kafkaUrl = configuration.GetValue<string>("Wolverine:Kafka:Url");
         var consumerGroupId = configuration.GetValue<string>("Wolverine:Kafka:ConsumerGroupId");
         Guard.IsNotNullOrEmpty(kafkaUrl, "Kafka Url not set.");
-        Guard.IsNotNullOrEmpty(kafkaUrl, "Kafka Consumer group id not set.");
+        Guard.IsNotNullOrEmpty(consumerGroupId, "Kafka Consumer group id not set.");
 
         host.UseWolverine(opts =>
         {
@@ -54,13 +54,7 @@ public static class DependencyInjection
 
             opts.UseKafka(kafkaUrl);
 
-            opts.PublishToKafkaAutomatic(assemblies);
-
-            opts.ListenToKafkaTopic("demo-test-topic")
-                .ConfigureConsumer(config =>
-                {
-                    config.GroupId = consumerGroupId;
-                });
+            opts.RegisterKafkaMessages(assemblies, consumerGroupId);
         });
 
         var loggerConfiguration = new LoggerConfiguration()
@@ -157,34 +151,34 @@ public static class DependencyInjection
         return services;
     }
 
-    public static void PublishToKafkaAutomatic(this WolverineOptions opts, string[] assemblies)
+    public static void RegisterKafkaMessages(
+        this WolverineOptions opts,
+        string[] assemblies,
+        string consumerGroupId
+    )
     {
-        var loadedAssemblies = assemblies.Select(Assembly.Load).ToArray();
+        var kafkaMessages = assemblies
+            .Select(Assembly.Load)
+            .SelectMany(a => a.GetTypes())
+            .Select(t => new { MessageType = t, Attribute = t.GetCustomAttribute<KafkaMessageAttribute>() })
+            .Where(x =>
+                x.Attribute is not null
+                && x.MessageType is { IsAbstract: false, IsInterface: false }
+            )
+            .ToArray();
 
-        foreach (var assembly in loadedAssemblies)
+        foreach (var kafkaMessage in kafkaMessages)
         {
-            opts.Discovery.IncludeAssembly(assembly);
+            opts.PublishMessage(kafkaMessage.MessageType).ToKafkaTopic(kafkaMessage.Attribute!.TopicName);
         }
 
-        foreach (
-            var messageType in loadedAssemblies
-                .SelectMany(a => a.GetTypes())
-                .Where(t =>
-                    typeof(IKafkaMessage).IsAssignableFrom(t)
-                    && t is { IsAbstract: false, IsInterface: false }
-                )
-        )
+        foreach (var topic in kafkaMessages.Select(x => x.Attribute!.TopicName).Distinct())
         {
-            var topic = messageType.GetCustomAttribute<KafkaTopicAttribute>()?.TopicName;
-
-            if (string.IsNullOrWhiteSpace(topic))
-            {
-                throw new InvalidOperationException(
-                    $"{messageType.FullName} implements IKafkaMessage but has no KafkaTopicAttribute."
-                );
-            }
-
-            opts.PublishMessage(messageType).ToKafkaTopic(topic);
+            opts.ListenToKafkaTopic(topic)
+                .ConfigureConsumer(config =>
+                {
+                    config.GroupId = consumerGroupId;
+                });
         }
     }
 }
