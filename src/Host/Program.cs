@@ -1,6 +1,7 @@
 using CleanResult;
 using JasperFx;
 using Lamar.Microsoft.DependencyInjection;
+using ManualWolverineHandlerRegistration;
 using ManualWolverineHandlerRegistration.Application.Commands;
 using SharedKernel;
 using Todos;
@@ -23,11 +24,7 @@ builder.Services.AddLogging();
 string[] assemblies = ["Todos", "SharedKernel", "SwaggerExamples", "ApiKafka1", "ApiKafka2"];
 
 builder.Host.AddProjects(assemblies, builder.Configuration);
-
-builder.UseWolverine(opts =>
-{
-    opts.Discovery.IncludeType<TestCommandHandler>();
-});
+builder.Services.AddTestHandlers();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSwagger("WolverineDemo", assemblies);
 builder.Services.AddMarten(builder.Configuration);

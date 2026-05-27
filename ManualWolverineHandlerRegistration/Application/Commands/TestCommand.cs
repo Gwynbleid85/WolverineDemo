@@ -8,11 +8,13 @@ public class TestCommandHandler
 {
     public static async Task<Result> LoadAsync(TestCommand command)
     {
+        ContextLog.Information("Loading command {@TestCommand}", command);
         return Result.Ok();
     }
 
-    public static async Task<Result> Handle(TestCommand command)
+    public static async Task<Result<string>> Handle(TestCommand command)
     {
-        return Result.Ok();
+        ContextLog.Information("Handling command {@TestCommand}", command);
+        return Result.Ok("Hello from external handler");
     }
 }

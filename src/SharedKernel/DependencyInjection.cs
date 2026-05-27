@@ -29,6 +29,7 @@ public static class DependencyInjection
     /// <param name="host"></param>
     /// <param name="assemblies"></param>
     /// <param name="configuration"></param>
+    /// <param name="configure"></param>
     /// <returns></returns>
     public static IHostBuilder AddProjects(
         this IHostBuilder host,
