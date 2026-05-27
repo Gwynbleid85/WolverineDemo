@@ -12,6 +12,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiKafka1", "ApiKafka1\ApiK
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiKafka2", "ApiKafka2\ApiKafka2.csproj", "{691DC6A2-3EE4-4D80-95C0-9DC204A9246B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManualWolverineHandlerRegistration", "ManualWolverineHandlerRegistration\ManualWolverineHandlerRegistration.csproj", "{CF1E6768-FBE3-42FD-A4F8-314BC3160162}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,5 +44,9 @@ Global
 		{691DC6A2-3EE4-4D80-95C0-9DC204A9246B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{691DC6A2-3EE4-4D80-95C0-9DC204A9246B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{691DC6A2-3EE4-4D80-95C0-9DC204A9246B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF1E6768-FBE3-42FD-A4F8-314BC3160162}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF1E6768-FBE3-42FD-A4F8-314BC3160162}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF1E6768-FBE3-42FD-A4F8-314BC3160162}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF1E6768-FBE3-42FD-A4F8-314BC3160162}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
