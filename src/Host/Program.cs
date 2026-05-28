@@ -24,7 +24,7 @@ builder.Services.AddLogging();
 string[] assemblies = ["Todos", "SharedKernel", "SwaggerExamples", "ApiKafka1", "ApiKafka2"];
 
 builder.Host.AddProjects(assemblies, builder.Configuration);
-builder.Services.AddTestHandlers();
+builder.Services.AddEmailManagement();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSwagger("WolverineDemo", assemblies);
 builder.Services.AddMarten(builder.Configuration);
