@@ -6,13 +6,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Host", "src\Host\Host.cspro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel", "src\SharedKernel\SharedKernel.csproj", "{B2681AB4-FC18-4C32-8200-1E8FB1348953}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwaggerExamples", "src/SwaggerExamples\SwaggerExamples.csproj", "{35AC2F8B-CCB9-4414-B8DC-56C7D7396BE3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwaggerExamples", "src\SwaggerExamples\SwaggerExamples.csproj", "{35AC2F8B-CCB9-4414-B8DC-56C7D7396BE3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiKafka1", "ApiKafka1\ApiKafka1.csproj", "{3B717991-B415-409A-9BDF-F6BBD6660D4E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiKafka1", "src\ApiKafka1\ApiKafka1.csproj", "{3B717991-B415-409A-9BDF-F6BBD6660D4E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiKafka2", "ApiKafka2\ApiKafka2.csproj", "{691DC6A2-3EE4-4D80-95C0-9DC204A9246B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiKafka2", "sec\ApiKafka2\ApiKafka2.csproj", "{691DC6A2-3EE4-4D80-95C0-9DC204A9246B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManualWolverineHandlerRegistration", "ManualWolverineHandlerRegistration\ManualWolverineHandlerRegistration.csproj", "{CF1E6768-FBE3-42FD-A4F8-314BC3160162}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManualWolverineHandlerRegistration", "src\ManualWolverineHandlerRegistration\ManualWolverineHandlerRegistration.csproj", "{CF1E6768-FBE3-42FD-A4F8-314BC3160162}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
