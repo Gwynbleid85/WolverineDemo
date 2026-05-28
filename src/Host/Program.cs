@@ -1,7 +1,11 @@
+using CleanResult;
 using JasperFx;
 using Lamar.Microsoft.DependencyInjection;
+using ManualWolverineHandlerRegistration;
+using ManualWolverineHandlerRegistration.Application.Commands;
 using SharedKernel;
 using Todos;
+using Wolverine;
 using Wolverine.Http;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,10 +21,10 @@ builder.Services.AddCors(opts =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddWolverineHttp();
 builder.Services.AddLogging();
-string[] assemblies = ["Todos", "SharedKernel", "SwaggerExamples", "Kafka1", "Kafka2"];
+string[] assemblies = ["Todos", "SharedKernel", "SwaggerExamples", "ApiKafka1", "ApiKafka2"];
 
 builder.Host.AddProjects(assemblies, builder.Configuration);
-
+builder.Services.AddEmailManagement();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSwagger("WolverineDemo", assemblies);
 builder.Services.AddMarten(builder.Configuration);
@@ -31,6 +35,7 @@ app.UseCors();
 app.UseStaticFiles();
 app.UseHttpsRedirection();
 app.UseSharedKernel();
+app.MapGet("/test/custom", (IMessageBus bus) => bus.InvokeAsync<Result>(new TestCommand()));
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

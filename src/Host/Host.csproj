@@ -7,6 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\ApiKafka1\ApiKafka1.csproj" />
+    <ProjectReference Include="..\..\ApiKafka2\ApiKafka2.csproj" />
+    <ProjectReference Include="..\..\ManualWolverineHandlerRegistration\ManualWolverineHandlerRegistration.csproj" />
     <ProjectReference Include="..\SharedKernel\SharedKernel.csproj" />
     <ProjectReference Include="..\SwaggerExamples\SwaggerExamples.csproj" />
     <ProjectReference Include="..\Todos\Todos.csproj" />

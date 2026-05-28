@@ -29,6 +29,7 @@ public static class DependencyInjection
     /// <param name="host"></param>
     /// <param name="assemblies"></param>
     /// <param name="configuration"></param>
+    /// <param name="configure"></param>
     /// <returns></returns>
     public static IHostBuilder AddProjects(
         this IHostBuilder host,
@@ -160,7 +161,11 @@ public static class DependencyInjection
         var kafkaMessages = assemblies
             .Select(Assembly.Load)
             .SelectMany(a => a.GetTypes())
-            .Select(t => new { MessageType = t, Attribute = t.GetCustomAttribute<KafkaMessageAttribute>() })
+            .Select(t => new
+            {
+                MessageType = t,
+                Attribute = t.GetCustomAttribute<KafkaMessageAttribute>(),
+            })
             .Where(x =>
                 x.Attribute is not null
                 && x.MessageType is { IsAbstract: false, IsInterface: false }
@@ -169,7 +174,8 @@ public static class DependencyInjection
 
         foreach (var kafkaMessage in kafkaMessages)
         {
-            opts.PublishMessage(kafkaMessage.MessageType).ToKafkaTopic(kafkaMessage.Attribute!.TopicName);
+            opts.PublishMessage(kafkaMessage.MessageType)
+                .ToKafkaTopic(kafkaMessage.Attribute!.TopicName);
         }
 
         foreach (var topic in kafkaMessages.Select(x => x.Attribute!.TopicName).Distinct())
